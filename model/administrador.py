@@ -22,7 +22,7 @@ class Administrador(Empleado):
         return f"Solicitud de informe:{tipo}"
     
       
-        S
+        
         
 
     

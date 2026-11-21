@@ -1,7 +1,7 @@
 # Esta clase se encarga de revisar que lo que escribe el usuario como correo, o texto o las horas trabajadas este bien escrito y no venga vacio o con errores antes de guardarlo.
 
 class ValidadorEntrada:
-    def validar_correo(self, correo: str)-> bool:
+    def validar_email(self, correo: str)-> bool:
         if "@" in correo and "." in correo:
             return True
         else:

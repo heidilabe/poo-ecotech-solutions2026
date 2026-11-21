@@ -1,6 +1,5 @@
 from model.empleado import Empleado
 
-
 class Administrador(Empleado):
     def __init__(
         self,
@@ -26,10 +25,10 @@ class Administrador(Empleado):
             usuario,
             password,
         )
-        self.nivel_acceso = nivel_acceso
+        self._nivel_acceso = nivel_acceso
 
     def get_nivel_acceso(self) -> int:
-        return self.nivel_acceso
+        return self._nivel_acceso
 
     def obtener_rol(self) -> str:
         return "Administrador"

@@ -61,25 +61,22 @@ class Empleado:
             print("Error: Los datos proporcionados no son válidos.")
             return False
 
-    
-   
+    def set_departamento(self, departamento):
+        self._departamento = departamento
 
+    def registrar_horas(self, fecha: str, horas: float, tarea: str, proyecto: str) -> str:
+        return (
+            f"Registro de {self._nombre} en {proyecto} | {fecha}: {horas} hrs - {tarea}"
+        )
 
+    def obtener_rol(self) -> str:
+        raise NotImplementedError("La clase hija debe definir su rol")
 
+    def tiene_permiso(self, modulo: str) -> bool:
+        raise NotImplementedError("La clase hija debe definir sus permisos")
 
-
-
-
-
-
-
-
-
-            
-    
-      
-
-        
-
-        
-        
+    def mostrar_datos(self) -> str:
+        return (
+            f"Empleado\n ID: {self._id_empleado} | Nombre: {self._nombre} | "
+            f"Correo: {self._correo} | Rol: {self.obtener_rol()}"
+        )

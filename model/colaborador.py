@@ -1,48 +1,41 @@
-from datetime import date
-
 from model.empleado import Empleado
 
 
 class Colaborador(Empleado):
     def __init__(
         self,
+        id_empleado: int,
         nombre: str,
         direccion: str,
         telefono: str,
         correo: str,
-        contrato: date,
+        fecha_inicio_contrato: str,
         salario: float,
-        credencial,
+        usuario: str,
+        password: str,
         cargo: str,
     ):
         super().__init__(
+            id_empleado,
             nombre,
             direccion,
             telefono,
             correo,
-            contrato,
+            fecha_inicio_contrato,
             salario,
-            credencial,
+            usuario,
+            password,
         )
-        self.__cargo = cargo
-        self.__registros = []
+        self.cargo = cargo
 
     def obtener_rol(self) -> str:
         return "Colaborador"
 
+    def get_cargo(self) -> str:
+        return self.cargo
+
     def tiene_permiso(self, modulo: str) -> bool:
-        return modulo == "mis_registros"
+        return modulo == "registros"
 
-    def registrar_horas(
-        self,
-        fecha: date,
-        horas: float,
-        tarea: str,
-        proyecto,
-    ):
-        registro = super().registrar_horas(fecha, horas, tarea, proyecto)
-        self.__registros.append(registro)
-        return registro
-
-    def consultar_mis_registros(self) -> list:
-        return self.__registros
+    def consultar_mis_registros(self) -> str:
+        return f"Registros de {self.get_nombre()}"

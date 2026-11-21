@@ -1,56 +1,83 @@
-from abc import ABC, abstractmethod
-from datetime import date
-from decimal import Decimal
-from itertools import count
-
+from model.credencial import CredencialAcceso
 from model.validador_entrada import ValidadorEntrada
 
 
-class Empleado(ABC):
-    _secuencia = count(1)
-
+class Empleado:
     def __init__(
         self,
+        id_empleado: int,
         nombre: str,
         direccion: str,
         telefono: str,
         correo: str,
-        contrato: date,
+        fecha_inicio_contrato: str,
         salario: float,
-        credencial,
+        usuario: str,
+        password: str,
     ):
-        self.__id = next(Empleado._secuencia)
-        self.__nombre = nombre
-        self.__direccion = direccion
-        self.__telefono = telefono
-        self.__correo = correo
-        self.__contrato = contrato
-        self.__salario = Decimal(str(salario))
-        self.__credencial = credencial
+        self._id_empleado = id_empleado
+        self._nombre = nombre
+        self._direccion = direccion
+        self._telefono = telefono
+        self._correo = correo
+        self._fecha_inicio_contrato = fecha_inicio_contrato
+        self._salario = salario
 
-    def id(self) -> int:
-        return self.__id
+        self._credencial = CredencialAcceso(usuario, password)
+        self._registros = []
+        self._asignaciones = []
+        self._departamento = None
 
-    def nombre(self) -> str:
-        return self.__nombre
+    def get_id_empleado(self) -> int:
+        return self._id_empleado
 
-    def registrar_horas(
+    def get_nombre(self) -> str:
+        return self._nombre
+
+    def get_direccion(self) -> str:
+        return self._direccion
+
+    def get_telefono(self) -> str:
+        return self._telefono
+
+    def get_correo(self) -> str:
+        return self._correo
+
+    def get_fecha_inicio_contrato(self) -> str:
+        return self._fecha_inicio_contrato
+
+    def get_credencial(self) -> CredencialAcceso:
+        return self._credencial
+
+    def get_registros(self) -> list:
+        return self._registros
+
+    def get_asignaciones(self) -> list:
+        return self._asignaciones
+
+    def get_departamento(self):
+        return self._departamento
+
+    def get_salario(self) -> float:
+        return self._salario
+
+    def actualizar_datos(
         self,
-        fecha: date,
-        horas: float,
-        tarea: str,
-        proyecto,
-    ):
-        ValidadorEntrada.validar_horas(horas)
+        direccion: str,
+        telefono: str,
+        correo: str,
+    ) -> bool:
+        validador = ValidadorEntrada()
 
-        from model.registro_tiempo import RegistroTiempo
+        if (
+            validador.validar_texto(direccion)
+            and validador.validar_texto(telefono)
+            and validador.validar_email(correo)
+        ):
+            self._direccion = direccion
+            self._telefono = telefono
+            self._correo = correo
+            return True
 
-        return RegistroTiempo(fecha, horas, tarea, self, proyecto)
-
-    @abstractmethod
-    def obtener_rol(self) -> str:
-        pass
-
-    @abstractmethod
-    def tiene_permiso(self, modulo: str) -> bool:
-        pass
+        print("Error: Los datos proporcionados no son válidos.")
+        return False

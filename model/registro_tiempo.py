@@ -16,12 +16,14 @@ class RegistroTiempo:
         self.__tarea = tarea
         self.__empleado = empleado
         self.__proyecto = proyecto
-        self.__validador = ValidadorEntrada()
         self.validar()
 
     def validar(self):
-        self.__validador.validar_horas(self.__horas)
-        self.__validador.validar_texto(self.__tarea)
+        validador = ValidadorEntrada()
+        if not validador.validar_horas(self.__horas):
+            raise ValueError("Las horas deben ser mayores que 0 y hasta 24")
+        if not validador.validar_texto(self.__tarea):
+            raise ValueError("La tarea no puede estar vacía")
 
     def get_id(self) -> int:
         return self.__id

@@ -165,6 +165,46 @@ def actualizar_empleado(id_empleado, direccion, telefono, correo):
 
         if conn:
             conn.close()
+# Eliminar Empleado.
+# Esta funcion permite eliminar un empleado de la tabla utilizando su ID
+def eliminar_empleado(id_empleado):
+    consulta = """
+    DELETE FROM empleados where id_empleado = %s  
+    """
+
+    conn = None
+    cursor = None
+
+    try:
+        conn = conectar_db()
+
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute(consulta, (id_empleado,))
+            conn.commit()
+
+            if cursor.rowcount > 0:
+                print("[INFO] Empleado eliminado correctamente")
+                return True
+            else:
+                print("[INFO] No se encontro el empleado")
+                return False
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+
+        print(f"[ERROR] No se pudo eliminar el empleado | {e}")
+        return False
+
+    finally:
+        if cursor:
+            cursor.close()
+
+        if conn:
+            conn.close()    
+
+
 
  
 

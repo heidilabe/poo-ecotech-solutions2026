@@ -2,7 +2,10 @@ from model.administrador import Administrador
 from model.colaborador import Colaborador
 from database.empleado_dao import buscar_empleado_por_usuario
 from database.empleado_dao import actualizar_empleado
+from database.empleado_dao import eliminar_empleado
+from database.empleado_dao import insertar_empleado
 
+  
 
 admin = Administrador(1, "Luis", "Calle 1", "999111222", "luis@mail.com", "2026-01-15", 1800000, "luis", "1234", 3)
 colab = Colaborador(2, "Ana", "Calle 2", "999333444", "ana@mail.com", "2026-02-01", 1200000, "ana", "1234", "Analista")
@@ -25,9 +28,9 @@ if empleado:
     print("Hash de contraseña:", empleado[3])
 else:
     print("No se encontro el empleado.")
-    # ==========================================
+
 # ACTUALIZAR EMPLEADO
-# ==========================================
+
 print("\n--- ACTUALIZAR EMPLEADO ---")
 
 resultado = actualizar_empleado(
@@ -38,3 +41,29 @@ resultado = actualizar_empleado(
 )
 
 print("Resultado de actualizacion:", resultado)
+
+# ==========================================
+# REGISTRAR EMPLEADO DE PRUEBA
+# ==========================================
+# insertar_empleado(pedro)
+pedro = Colaborador(
+    3,
+    "Pedro",
+    "Calle 20",
+    "999888777",
+    "pedro@mail.com",
+    "2026-03-01",
+    1000000,
+    "pedro",
+    "1234",
+    "Asistente"
+)
+
+insertar_empleado(pedro)
+# ==========================================
+# ELIMINAR EMPLEADO DE PRUEBA
+# ==========================================
+
+resultado = eliminar_empleado(3)
+
+print("Resultado de eliminacion:", resultado)

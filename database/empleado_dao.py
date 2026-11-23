@@ -1,9 +1,7 @@
 # Importamos la funcion que abre la conexion con Supabase 
 from database.conexion import conectar_db
 # esta funcion crea la tabla " empleados" si todavia no existe.
-# En una sola tabla guardamos los datos del empleado y tambien su credencial
-# usuario, hash de la contraseña, intentos fallidos y bloqueo.
-def validar_tabla_empleados():
+def validar_tabla_empleados():  # crea la tabla empleado.
 
 
     consulta_sql = """
@@ -84,6 +82,92 @@ def insertar_empleado(empleado):
 
         if conn:
             conn.close()
+
+
+    #  Esta funcion busca en la tabla un empleado por su usuario.
+   #   Devuelve sus datos o None si no existe.
+
+def buscar_empleado_por_usuario(usuario):  # busca empleado por usuario.
+    consulta = """
+        SELECT id_empleado, nombre, rol, password_hash
+        FROM empleados
+        WHERE usuario = %s
+    """
+
+    conn = None
+    cursor = None
+
+    try:
+        conn = conectar_db()
+
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute(consulta, (usuario,))
+            return cursor.fetchone()
+
+    except Exception as e:
+        print(f"[ERROR] No se pudo buscar el empleado | {e}")
+        return None
+
+    finally:
+        if cursor:
+            cursor.close()
+
+        if conn:
+            conn.close()
+
+
+# Esta funcion permite actualizar los datos de un empleado.
+
+def actualizar_empleado(id_empleado, direccion, telefono, correo):
+    consulta = """
+        UPDATE empleados
+        SET direccion = %s,
+            telefono = %s,
+            correo = %s
+        WHERE id_empleado = %s
+    """
+
+    conn = None
+    cursor = None
+
+    try:
+        conn = conectar_db()
+
+        if conn:
+            cursor = conn.cursor()
+            cursor.execute(consulta, (
+                direccion,
+                telefono,
+                correo,
+                id_empleado
+            ))
+
+            conn.commit()
+
+            if cursor.rowcount > 0:
+                print("[INFO] Empleado actualizado correctamente")
+                return True
+            else:
+                print("[INFO] No se encontro el empleado")
+                return False
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+
+        print(f"[ERROR] No se pudo actualizar el empleado | {e}")
+        return False
+
+    finally:
+        if cursor:
+            cursor.close()
+
+        if conn:
+            conn.close()
+
+ 
+
                 
 
 

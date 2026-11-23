@@ -1,6 +1,7 @@
+# bcrypt es la libreia que protege las contraseñas.
+#Convierte una clave como 1234 en un codigo largo e ilegible, por ejemplo $2b$12$...
+# Ese codigo se llama hash, y de el no se puede volver a la clave original
 import bcrypt
-
-# Esta clase guarda los datos de acceso de un empleado. La contraseña no se guarda su hash junto con un salt. Controla los intentos fallidos y bloquea la cuenta al tercer error.
 class CredencialAcceso:
     def __init__(self, usuario: str, password: str):
         self._usuario = usuario

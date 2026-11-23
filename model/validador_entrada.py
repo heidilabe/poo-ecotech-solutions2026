@@ -1,29 +1,24 @@
+# Esta clase se encarga de revisar que lo que escribe el usuario como correo, o texto o las horas trabajadas este bien escrito y no venga vacio o con errores antes de guardarlo.
+
 class ValidadorEntrada:
-    @staticmethod
-    def validar_email(v: str) -> bool:
-        # Debe ser texto y tener un @
-        if not isinstance(v, str) or "@" not in v:
-            return False
-        # Despues del @ tiene que haber un punto (ej: mail.com)
-        partes = v.split("@")
-        if "." in partes[1]:
+    def validar_email(self, correo: str)-> bool:
+        if "@" in correo and "." in correo:
             return True
         else:
             return False
 
-    @staticmethod
-    def validar_texto(v: str) -> bool:
-        # Debe ser texto y no estar vacio
-        if isinstance(v, str) and v.strip() != "":
+    def validar_texto(self, texto: str)-> bool: 
+        texto_limpio = texto.strip()
+        if len(texto_limpio) > 0:
             return True
         else:
             return False
 
-    @staticmethod
-    def validar_horas(h: float) -> bool:
-        # Debe ser un numero mayor que  0 y hasta 24
-        if isinstance(h, (int, float)) and h > 0 and h <= 24:
+    def validar_horas(self, horas: float)->bool:
+        if horas > 0 and horas <= 24:
             return True
         else:
             return False
+
+
 
